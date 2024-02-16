@@ -1,0 +1,6 @@
+wandb==0.14.0
+opencv-python==4.4.*
+scipy==1.10.1
+gdown==4.6.6
+matplotlib
+streamlit
