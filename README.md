@@ -12,9 +12,13 @@ git clone https://github.com/aimagelab/VATr.git && cd VATr
 pip install -r requirements.txt
 ```
 
-From [this folder](https://drive.google.com/drive/folders/13rJhjl7VsyiXlPTBvnp1EKkKEhckLalr?usp=sharing) you have to download the files `IAM-32.pickle` and `resnet_18_pretrained.pth` and place them into the `files` folder.
+[This folder](https://drive.google.com/drive/folders/13rJhjl7VsyiXlPTBvnp1EKkKEhckLalr?usp=sharing) contains the regular IAM dataset `IAM-32.pickle` and the modified version with attached punctuation marks `IAM-32-pa.pickle`.
+The folder also contains the synthetically pretrained weights for the encoder `resnet_18_pretrained.pth`.
+Please download these files and place them into the `files` folder.
 
 ## Training
+
+To train the regular VATr model, use the following command. This uses the default settings from the paper.
 
 ```bash
 python train.py
@@ -43,7 +47,7 @@ python train.py
 The model `resnet_18_pretrained.pth` was pretrained by using this dataset: [download link](https://drive.google.com/drive/folders/1Xs_rR0EWt09-K6vmlvAI8pwsrmHSknC8?usp=share_link)
 
 
-## Generate Styled Handwtitten Text Images
+## Generate Styled Handwritten Text Images
 
 We added some utility to generate handwritten text images using the trained model. These are used as follows:
 
@@ -53,17 +57,39 @@ python generate.py [ACTION] --checkpoint files/vatrpp.pth
 
 The following actions are available with their respective arguments.
 
-Generate the given text for a custom author. Style samples for the author are needed. These can be automatically generated from an image of a page using `create_style_sample.py`
+### Custom Author
+
+Generate the given text for a custom author.
 
 ```bash
 text  --text STRING     # String to generate
       --text-path PATH  # Optional path to text file
       --output PATH     # Optional output location, default: files/output.png
-      --style-folder    # Optional stye folder containing writer samples, default: 'files/style_samples/00'
+      --style-folder    # Optional style folder containing writer samples, default: 'files/style_samples/00'
 ```
+Style samples for the author are needed. These can be automatically generated from an image of a page using `create_style_sample.py`.
 
-Generate some text for all authors of IAM.
+### All Authors
+
+Generate some text for all authors of IAM. The output is saved to `saved_images/author_samples/`
 
 ```bash
-authors --test-set  # Generate authors of test set, otherwise training set is generated
+authors --test-set        # Generate authors of test set, otherwise training set is generated
+        --checkpoint PATH # Checkpoint used to generate text, files/vatr.pth by default
+        --align           # Detect the bottom lines for each word and align them
+        --at-once         # Generate the whole sentence at once instead of word-by-word
+        --output-style    # Also save the style images used to generate the words
+```
+
+### Evaluation Images
+
+```bash
+fid --target_dataset_path PATH  # dataset file for which the test set will be generated
+    --dataset-path PATH         # dataset file from which style samples will be taken, for example the attached punctuation
+    --output PATH               # where to save the images, default is saved_images/fid
+    --checkpoint PATH           # Checkpoint used to generate text, files/vatr.pth by default
+    --all-epochs                # Generate evaluation images for all saved epochs available (checkpoint has to be a folder)
+    --fake-only                 # Only output fake images, no ground truth
+    --test-only                 # Only generate test set, not train set
+    --long-tail                 # Only generate words containing long tail characters
 ```
