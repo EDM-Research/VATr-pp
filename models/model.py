@@ -4,7 +4,7 @@ from torch.nn.utils import clip_grad_norm_
 import sys
 import torchvision.models as models
 
-from analysis.inception import InceptionV3
+from models.inception import InceptionV3
 from models.transformer import *
 from util.augmentations import OCRAugment
 from util.misc import SmoothedValue
