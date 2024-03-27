@@ -1,11 +1,7 @@
 wandb
-files/IAM-32.pickle
-files/IAM-64-as.pickle
-files/IAM-32-as.pickle
-files/CVL-32.pickle
-files/resnet_18_pretrained.pth
+files/*.pickle
 saved_models/IAM-339-15-E3D3-LR5e-05-bs8-finetune/vatr.pth
-files/style_samples/tmp
+files/style_samples/*
 .idea/
 files/tired_*
 *.pyc
@@ -15,4 +11,4 @@ files/*.pth
 *.pth
 saved_models/*
 files/stats/*
-files/*
+files/*.png
