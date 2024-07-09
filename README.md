@@ -65,9 +65,13 @@ Generate the given text for a custom author.
 text  --text STRING     # String to generate
       --text-path PATH  # Optional path to text file
       --output PATH     # Optional output location, default: files/output.png
-      --style-folder    # Optional style folder containing writer samples, default: 'files/style_samples/00'
+      --style-folder PATH    # Optional style folder containing writer samples, default: 'files/style_samples/00'
 ```
 Style samples for the author are needed. These can be automatically generated from an image of a page using `create_style_sample.py`.
+```bash
+python create_style_sample.py  --input-image PATH     # Path of the image to extract the style samples from.
+                               --output-folder PATH   # Folder where the style samples should be saved
+```
 
 ### All Authors
 
